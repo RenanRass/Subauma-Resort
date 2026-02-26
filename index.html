@@ -1,0 +1,622 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="author" content="Renan Rass">
+<meta name="description" content="Subauma Marina Resort & Private Airfield — Conceito exclusivo. Autoria: Renan Rass.">
+<title>SUBAUMA — Marina Resort & Private Airfield</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&family=Montserrat:wght@200;300;400;500;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"/>
+<style>
+:root{
+  --gold:#C9A84C;--gold-light:#E8C96A;--gold-dim:#8a6f2e;
+  --navy:#050D1A;--navy-mid:#0A1628;--navy-light:#112040;
+  --white:#F5F0E8;--white-dim:rgba(245,240,232,0.65);--white-faint:rgba(245,240,232,0.12);
+}
+*,*::before,*::after{margin:0;padding:0;box-sizing:border-box;}
+html{scroll-behavior:smooth;}
+body{background:var(--navy);color:var(--white);font-family:'Montserrat',sans-serif;font-weight:300;overflow-x:hidden;}
+body::after{content:"© RENAN RASS — CONCEITO PROPRIETÁRIO — TODOS OS DIREITOS RESERVADOS";position:fixed;bottom:12px;left:50%;transform:translateX(-50%);font-size:9px;letter-spacing:3px;color:rgba(201,168,76,0.38);white-space:nowrap;z-index:9999;pointer-events:none;}
+
+/* NAV */
+nav{position:fixed;top:0;left:0;right:0;z-index:1000;display:flex;justify-content:space-between;align-items:center;padding:20px 60px;background:linear-gradient(to bottom,rgba(5,13,26,0.97),transparent);backdrop-filter:blur(8px);}
+.nav-logo{font-family:'Cormorant Garamond',serif;font-size:22px;font-weight:300;letter-spacing:8px;color:var(--gold);text-transform:uppercase;text-decoration:none;}
+.nav-links{display:flex;gap:30px;list-style:none;}
+.nav-links a{font-size:10px;letter-spacing:3px;color:var(--white-dim);text-decoration:none;text-transform:uppercase;transition:color .3s;}
+.nav-links a:hover{color:var(--gold);}
+.nav-auth{font-size:9px;letter-spacing:2px;color:var(--gold-dim);text-transform:uppercase;}
+
+/* HERO VIDEO */
+.hero{position:relative;height:100vh;min-height:700px;display:flex;align-items:flex-end;overflow:hidden;}
+.hero video{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;}
+.hero-fallback{position:absolute;inset:0;background:url('81.png') center/cover no-repeat;}
+.hero-overlay{position:absolute;inset:0;background:linear-gradient(to bottom,rgba(5,13,26,.3) 0%,rgba(5,13,26,.05) 35%,rgba(5,13,26,.68) 72%,rgba(5,13,26,1) 100%);}
+.hero-content{position:relative;z-index:5;padding:0 80px 100px;max-width:860px;}
+.eyebrow{font-size:10px;letter-spacing:6px;color:var(--gold);text-transform:uppercase;margin-bottom:20px;animation:fu 1s ease .2s both;}
+.hero-title{font-family:'Cormorant Garamond',serif;font-size:clamp(52px,8vw,110px);font-weight:300;line-height:.92;letter-spacing:-1px;color:var(--white);margin-bottom:28px;animation:fu 1s ease .4s both;}
+.hero-title em{font-style:italic;color:var(--gold-light);}
+.hero-div{width:60px;height:1px;background:var(--gold);margin:26px 0;animation:fu 1s ease .5s both;}
+.hero-sub{font-size:13px;letter-spacing:.5px;color:var(--white-dim);max-width:480px;line-height:2;animation:fu 1s ease .6s both;}
+.hero-cta{margin-top:42px;display:flex;gap:16px;flex-wrap:wrap;animation:fu 1s ease .8s both;}
+@keyframes fu{from{opacity:0;transform:translateY(28px);}to{opacity:1;transform:translateY(0);}}
+.btn-gold{padding:14px 38px;background:var(--gold);color:var(--navy);font-size:10px;letter-spacing:3px;text-transform:uppercase;font-weight:600;border:none;cursor:pointer;text-decoration:none;transition:all .3s;display:inline-block;}
+.btn-gold:hover{background:var(--gold-light);transform:translateY(-2px);}
+.btn-outline{padding:14px 38px;border:1px solid var(--gold-dim);color:var(--gold);font-size:10px;letter-spacing:3px;text-transform:uppercase;background:transparent;cursor:pointer;text-decoration:none;transition:all .3s;display:inline-block;}
+.btn-outline:hover{border-color:var(--gold);background:rgba(201,168,76,.08);}
+.scroll-ind{position:absolute;bottom:38px;right:60px;display:flex;flex-direction:column;align-items:center;gap:8px;z-index:5;animation:fu 1s ease 1.2s both;}
+.scroll-ind span{font-size:8px;letter-spacing:4px;color:var(--gold-dim);text-transform:uppercase;writing-mode:vertical-rl;}
+.sline{width:1px;height:56px;background:linear-gradient(to bottom,var(--gold-dim),transparent);animation:pls 2s ease-in-out infinite;}
+@keyframes pls{0%,100%{opacity:.3;}50%{opacity:1;}}
+
+/* NUMBERS */
+.nbar{background:var(--navy-light);border-top:1px solid rgba(201,168,76,.2);border-bottom:1px solid rgba(201,168,76,.2);padding:50px 80px;display:grid;grid-template-columns:repeat(5,1fr);}
+.ni{text-align:center;padding:0 20px;border-right:1px solid rgba(201,168,76,.1);}
+.ni:last-child{border-right:none;}
+.nv{font-family:'Cormorant Garamond',serif;font-size:48px;font-weight:300;color:var(--gold);line-height:1;margin-bottom:8px;}
+.nl{font-size:9px;letter-spacing:3px;color:var(--white-dim);text-transform:uppercase;}
+
+/* SHARED */
+section{padding:120px 80px;}
+.se{font-size:9px;letter-spacing:5px;color:var(--gold);text-transform:uppercase;margin-bottom:16px;}
+.st{font-family:'Cormorant Garamond',serif;font-size:clamp(36px,4vw,62px);font-weight:300;line-height:1.1;margin-bottom:22px;}
+.st em{font-style:italic;color:var(--gold-light);}
+.gl{width:50px;height:1px;background:var(--gold);margin-bottom:28px;}
+.sb{font-size:13px;line-height:2;color:var(--white-dim);max-width:600px;}
+
+/* MAP */
+#localizacao{background:var(--navy-mid);padding:110px 0 0;}
+.map-hdr{padding:0 80px 60px;display:flex;gap:80px;align-items:flex-end;flex-wrap:wrap;}
+.map-hdr-l{flex:1;min-width:260px;}
+.map-stats{display:flex;gap:44px;flex-wrap:wrap;}
+.msv{font-family:'Cormorant Garamond',serif;font-size:38px;font-weight:300;color:var(--gold);line-height:1;}
+.msl{font-size:9px;letter-spacing:3px;color:var(--white-dim);text-transform:uppercase;margin-top:6px;}
+.map-wrap{position:relative;width:100%;height:600px;}
+#smap{width:100%;height:100%;filter:saturate(.88) brightness(.9);}
+.map-wrap::before{content:'';position:absolute;top:0;left:0;right:0;height:60px;background:linear-gradient(to bottom,var(--navy-mid),transparent);z-index:450;pointer-events:none;}
+.map-wrap::after{content:'';position:absolute;bottom:0;left:0;right:0;height:90px;background:linear-gradient(to top,var(--navy-mid),transparent);z-index:450;pointer-events:none;}
+.leaflet-popup-content-wrapper{background:var(--navy-light)!important;border:1px solid var(--gold-dim)!important;border-radius:0!important;color:var(--white)!important;font-family:'Montserrat',sans-serif!important;}
+.leaflet-popup-tip{background:var(--navy-light)!important;}
+.leaflet-popup-content{font-size:12px;line-height:1.9;color:var(--white-dim);padding:4px 8px;}
+.leaflet-popup-content strong{color:var(--gold);}
+.leaflet-control-zoom{border:1px solid rgba(201,168,76,.3)!important;}
+.leaflet-control-zoom a{background:var(--navy-light)!important;color:var(--gold)!important;border-bottom:1px solid rgba(201,168,76,.2)!important;}
+.leaflet-control-zoom a:hover{background:rgba(201,168,76,.12)!important;}
+.map-cap{background:var(--navy-light);border-top:1px solid rgba(201,168,76,.15);padding:20px 80px;display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:12px;}
+.map-cap p{font-size:9px;letter-spacing:3px;color:var(--gold-dim);text-transform:uppercase;}
+.map-badge{display:flex;align-items:center;gap:8px;font-size:9px;letter-spacing:2px;color:var(--gold);text-transform:uppercase;}
+.map-badge::before{content:'●';font-size:7px;}
+
+/* VISION */
+#vision{display:grid;grid-template-columns:1fr 1fr;gap:90px;align-items:center;background:var(--navy);}
+.vis-img{position:relative;overflow:hidden;height:500px;}
+.vis-img img{width:100%;height:100%;object-fit:cover;display:block;transition:transform .8s;}
+.vis-img:hover img{transform:scale(1.04);}
+.vis-img::after{content:'';position:absolute;inset:0;border:1px solid rgba(201,168,76,.2);pointer-events:none;}
+.vis-cap{position:absolute;bottom:0;left:0;right:0;padding:18px 22px;background:linear-gradient(to top,rgba(5,13,26,.9),transparent);font-size:9px;letter-spacing:3px;color:var(--gold);text-transform:uppercase;}
+
+/* MASTERPLAN */
+.mp-wrap{position:relative;height:68vh;overflow:hidden;}
+.mp-wrap img{width:100%;height:100%;object-fit:cover;display:block;}
+.mp-ov{position:absolute;inset:0;background:linear-gradient(to right,rgba(5,13,26,.88) 35%,rgba(5,13,26,.2) 70%,transparent 100%);display:flex;align-items:center;padding:0 100px;}
+.mp-text{max-width:460px;}
+
+/* VIDEO GALLERY */
+#videos{background:var(--navy-mid);padding:120px 80px;}
+.vh{text-align:center;max-width:650px;margin:0 auto 70px;}
+.vh .gl{margin:0 auto 28px;}
+.vgrid{display:grid;grid-template-columns:repeat(3,1fr);gap:3px;}
+.vcard{position:relative;overflow:hidden;cursor:pointer;background:#000;}
+.vcard video{width:100%;height:220px;object-fit:cover;display:block;transition:transform .6s,filter .4s;filter:brightness(.65);}
+.vcard:hover video{transform:scale(1.04);filter:brightness(.85);}
+.vcard-overlay{position:absolute;inset:0;display:flex;flex-direction:column;justify-content:flex-end;padding:20px;background:linear-gradient(to top,rgba(5,13,26,.9) 0%,transparent 55%);pointer-events:none;}
+.vcard-play{position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);width:48px;height:48px;border-radius:50%;border:2px solid rgba(201,168,76,.7);display:flex;align-items:center;justify-content:center;transition:all .3s;}
+.vcard:hover .vcard-play{border-color:var(--gold);background:rgba(201,168,76,.15);}
+.vcard-play svg{width:18px;height:18px;fill:var(--gold);margin-left:3px;}
+.vcard-title{font-family:'Cormorant Garamond',serif;font-size:16px;font-weight:300;color:var(--white);}
+/* Lightbox */
+.lightbox{display:none;position:fixed;inset:0;background:rgba(5,13,26,.96);z-index:2000;align-items:center;justify-content:center;flex-direction:column;gap:16px;}
+.lightbox.open{display:flex;}
+.lightbox video{max-width:90vw;max-height:80vh;outline:none;}
+.lb-close{position:absolute;top:24px;right:32px;font-size:28px;color:var(--gold);cursor:pointer;background:none;border:none;font-family:'Cormorant Garamond',serif;}
+.lb-close:hover{color:var(--gold-light);}
+.lb-title{font-family:'Cormorant Garamond',serif;font-size:18px;font-weight:300;color:var(--white-dim);letter-spacing:2px;}
+
+/* AMENITIES */
+#amenities{background:var(--navy-light);padding:120px 80px;}
+.ah{text-align:center;max-width:600px;margin:0 auto 80px;}
+.ah .gl{margin:0 auto 28px;}
+.ag{display:grid;grid-template-columns:repeat(3,1fr);gap:2px;}
+.ac{position:relative;overflow:hidden;cursor:pointer;}
+.ac img{width:100%;height:300px;object-fit:cover;display:block;transition:transform .8s,filter .5s;filter:brightness(.72);}
+.ac:hover img{transform:scale(1.07);filter:brightness(.48);}
+.ai{position:absolute;inset:0;display:flex;flex-direction:column;justify-content:flex-end;padding:28px;background:linear-gradient(to top,rgba(5,13,26,.92) 0%,transparent 55%);}
+.an{font-family:'Cormorant Garamond',serif;font-size:11px;color:var(--gold);letter-spacing:3px;margin-bottom:6px;}
+.at2{font-family:'Cormorant Garamond',serif;font-size:23px;font-weight:300;color:var(--white);margin-bottom:8px;}
+.ad{font-size:10px;color:var(--white-dim);line-height:1.75;max-height:0;overflow:hidden;transition:max-height .4s,opacity .4s;opacity:0;}
+.ac:hover .ad{max-height:80px;opacity:1;}
+
+/* QUOTE */
+.qbreak{position:relative;height:60vh;overflow:hidden;}
+.qbreak img{width:100%;height:100%;object-fit:cover;display:block;object-position:center 40%;}
+.qov{position:absolute;inset:0;background:rgba(5,13,26,.52);display:flex;flex-direction:column;align-items:center;justify-content:center;gap:18px;text-align:center;padding:0 60px;}
+.qq{font-family:'Cormorant Garamond',serif;font-size:clamp(26px,4vw,52px);font-weight:300;font-style:italic;color:var(--white);max-width:820px;line-height:1.3;}
+.qa{font-size:10px;letter-spacing:4px;color:var(--gold);text-transform:uppercase;}
+
+/* GALLERY STRIP */
+.gstrip{display:grid;grid-template-columns:repeat(5,1fr);gap:3px;height:230px;}
+.gstrip img{width:100%;height:100%;object-fit:cover;display:block;filter:brightness(.7) saturate(.85);transition:filter .5s,transform .5s;}
+.gstrip img:hover{filter:brightness(.9) saturate(1.1);transform:scale(1.03);}
+
+/* AIRFIELD */
+#airfield{display:grid;grid-template-columns:1fr 1fr;padding:0;min-height:580px;}
+.af-img{overflow:hidden;position:relative;}
+.af-img img{width:100%;height:100%;object-fit:cover;display:block;min-height:560px;transition:transform .8s;}
+.af-img:hover img{transform:scale(1.04);}
+.af-cont{background:var(--navy-light);padding:100px 80px;display:flex;flex-direction:column;justify-content:center;}
+.fl{list-style:none;margin-top:28px;}
+.fl li{display:flex;align-items:flex-start;gap:16px;padding:16px 0;border-bottom:1px solid rgba(201,168,76,.08);font-size:12px;color:var(--white-dim);letter-spacing:.3px;line-height:1.75;}
+.fl li::before{content:'—';color:var(--gold);flex-shrink:0;margin-top:2px;}
+
+/* DINING */
+#dining{display:grid;grid-template-columns:1fr 1fr;padding:0;min-height:520px;}
+.dn-cont{background:var(--navy-mid);padding:100px 80px;display:flex;flex-direction:column;justify-content:center;}
+.dn-img{overflow:hidden;}
+.dn-img img{width:100%;height:100%;object-fit:cover;display:block;min-height:520px;transition:transform .8s;}
+.dn-img:hover img{transform:scale(1.04);}
+
+/* INVESTMENT */
+#investment{background:var(--navy-mid);text-align:center;}
+.ig{display:grid;grid-template-columns:repeat(3,1fr);gap:2px;margin-top:70px;}
+.ic{background:var(--navy-light);padding:58px 40px;border:1px solid rgba(201,168,76,.1);transition:all .4s;position:relative;overflow:hidden;}
+.ic::before{content:'';position:absolute;top:0;left:0;right:0;height:2px;background:var(--gold);transform:scaleX(0);transition:transform .4s;}
+.ic:hover::before{transform:scaleX(1);}
+.ic:hover{background:rgba(201,168,76,.04);}
+.ii{font-size:30px;margin-bottom:22px;}
+.it{font-family:'Cormorant Garamond',serif;font-size:26px;font-weight:300;color:var(--gold-light);margin-bottom:14px;}
+.ip{font-size:12px;line-height:1.9;color:var(--white-dim);}
+
+/* AUTHORSHIP */
+#autoria{background:var(--navy);border-top:1px solid rgba(201,168,76,.2);border-bottom:1px solid rgba(201,168,76,.2);padding:80px;display:flex;gap:80px;align-items:center;}
+.aseal{flex-shrink:0;width:160px;height:160px;border:1px solid var(--gold);border-radius:50%;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:6px;position:relative;background:radial-gradient(circle,rgba(201,168,76,.05),transparent);}
+.aseal::before{content:'';position:absolute;inset:7px;border-radius:50%;border:1px solid rgba(201,168,76,.25);}
+.sm{font-family:'Cormorant Garamond',serif;font-size:14px;font-weight:600;color:var(--gold);letter-spacing:2px;text-transform:uppercase;text-align:center;}
+.ss{font-size:8px;letter-spacing:2px;color:var(--gold-dim);text-align:center;text-transform:uppercase;}
+.atxt h3{font-family:'Cormorant Garamond',serif;font-size:32px;font-weight:300;color:var(--white);margin-bottom:14px;}
+.atxt p{font-size:12px;line-height:2;color:var(--white-dim);max-width:700px;margin-bottom:12px;}
+.abadge{display:inline-block;padding:8px 20px;border:1px solid var(--gold-dim);font-size:9px;letter-spacing:3px;color:var(--gold);text-transform:uppercase;margin-top:8px;}
+
+/* CONFIDENTIAL */
+.confbanner{background:var(--navy-light);border-top:1px solid rgba(201,168,76,.3);border-bottom:1px solid rgba(201,168,76,.3);padding:20px 80px;display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:12px;}
+.confbanner p{font-size:9px;letter-spacing:2.5px;color:var(--gold-dim);text-transform:uppercase;}
+
+/* CONTACT */
+#contato{background:var(--navy-mid);display:grid;grid-template-columns:1fr 1fr;gap:90px;align-items:start;}
+.ct-img{overflow:hidden;height:560px;position:relative;}
+.ct-img img{width:100%;height:100%;object-fit:cover;display:block;}
+.ct-img::after{content:'';position:absolute;inset:0;border:1px solid rgba(201,168,76,.2);}
+.fg{margin-bottom:22px;}
+.fg label{display:block;font-size:9px;letter-spacing:3px;color:var(--gold-dim);text-transform:uppercase;margin-bottom:8px;}
+.fg input,.fg textarea,.fg select{width:100%;background:var(--white-faint);border:1px solid rgba(201,168,76,.2);padding:13px 18px;color:var(--white);font-family:'Montserrat',sans-serif;font-size:12px;outline:none;transition:border-color .3s;-webkit-appearance:none;}
+.fg input:focus,.fg textarea:focus,.fg select:focus{border-color:var(--gold);}
+.fg textarea{height:110px;resize:none;}
+.fg select option{background:var(--navy-mid);color:var(--white);}
+.fsub{width:100%;padding:16px;background:var(--gold);color:var(--navy);font-family:'Montserrat',sans-serif;font-size:10px;letter-spacing:3px;text-transform:uppercase;font-weight:600;border:none;cursor:pointer;transition:all .3s;}
+.fsub:hover{background:var(--gold-light);}
+.fnote{margin-top:14px;font-size:9px;color:rgba(245,240,232,.22);letter-spacing:1px;line-height:1.9;}
+.fsuccess{display:none;text-align:center;padding:40px;border:1px solid var(--gold-dim);color:var(--gold);font-family:'Cormorant Garamond',serif;font-size:22px;font-weight:300;margin-top:20px;}
+
+/* FOOTER */
+footer{background:var(--navy);padding:60px 80px 50px;display:flex;justify-content:space-between;align-items:flex-start;gap:40px;border-top:1px solid rgba(201,168,76,.1);flex-wrap:wrap;}
+.fbrand{font-family:'Cormorant Garamond',serif;font-size:28px;font-weight:300;letter-spacing:8px;color:var(--gold);margin-bottom:10px;}
+.ftag{font-size:10px;letter-spacing:3px;color:var(--white-dim);text-transform:uppercase;}
+.fleg{font-size:9px;color:rgba(245,240,232,.2);line-height:2.1;max-width:400px;text-align:right;}
+
+/* FADE IN */
+.fi{opacity:0;transform:translateY(22px);transition:opacity .8s ease,transform .8s ease;}
+.fi.vis{opacity:1;transform:translateY(0);}
+
+/* RESPONSIVE */
+@media(max-width:900px){
+  nav{padding:14px 20px;}.nav-links,.nav-auth{display:none;}
+  section{padding:70px 20px;}
+  .hero-content{padding:0 20px 70px;}
+  .nbar{grid-template-columns:repeat(2,1fr);padding:30px 20px;gap:24px;}
+  #vision,#airfield,#dining,#contato{grid-template-columns:1fr;gap:0;}
+  .ag,.ig,.vgrid{grid-template-columns:1fr;}
+  #autoria{flex-direction:column;padding:50px 20px;gap:30px;}
+  .confbanner{padding:14px 20px;}
+  footer{padding:40px 20px;flex-direction:column;}.fleg{text-align:left;}
+  .map-hdr{padding:0 20px 40px;gap:28px;}.map-cap{padding:16px 20px;}
+  .af-cont,.dn-cont{padding:60px 30px;}
+  .mp-ov{padding:0 30px;}
+  .gstrip{grid-template-columns:repeat(3,1fr);}
+  #videos{padding:70px 20px;}
+}
+
+/* VIDEO CARDS */
+.vcard{position:relative;overflow:hidden;cursor:pointer;background:#000;}
+.vcard-poster{position:absolute;inset:0;background-size:cover;background-position:center;z-index:1;filter:brightness(.65);transition:filter .5s,transform .6s;}
+.vcard:hover .vcard-poster{filter:brightness(.88);transform:scale(1.04);}
+.vcard video{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;opacity:0;z-index:2;transition:opacity .4s;}
+.vcard video.playing{opacity:1;}
+.vcard{height:220px;}
+.vcard-overlay{position:absolute;inset:0;display:flex;flex-direction:column;justify-content:flex-end;padding:20px;background:linear-gradient(to top,rgba(5,13,26,.92) 0%,transparent 55%);pointer-events:none;z-index:5;}
+.vcard-play{position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);width:52px;height:52px;border-radius:50%;border:2px solid rgba(201,168,76,.7);display:flex;align-items:center;justify-content:center;background:rgba(5,13,26,.4);transition:all .3s;z-index:5;}
+.vcard:hover .vcard-play{border-color:var(--gold);background:rgba(201,168,76,.2);}
+.vcard-play svg{width:18px;height:18px;fill:var(--gold);margin-left:3px;}
+.vcard-title{font-family:'Cormorant Garamond',serif;font-size:17px;font-weight:300;color:var(--white);}
+/* LIGHTBOX */
+.lightbox{display:none;position:fixed;inset:0;background:rgba(5,13,26,.96);z-index:2000;align-items:center;justify-content:center;flex-direction:column;gap:16px;}
+.lightbox.open{display:flex;}
+.lb-close{position:absolute;top:24px;right:32px;font-size:32px;color:var(--gold);cursor:pointer;background:none;border:none;font-family:'Cormorant Garamond',serif;line-height:1;}
+.lb-close:hover{color:var(--gold-light);}
+.lb-video-wrap{max-width:92vw;max-height:82vh;position:relative;}
+.lb-video-wrap video{max-width:92vw;max-height:82vh;outline:none;display:block;}
+.lb-title{font-family:'Cormorant Garamond',serif;font-size:16px;font-weight:300;color:var(--white-dim);letter-spacing:2px;text-align:center;}
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav>
+  <a href="#" class="nav-logo">Subauma</a>
+  <ul class="nav-links">
+    <li><a href="#localizacao">Localização</a></li>
+    <li><a href="#videos">Vídeos</a></li>
+    <li><a href="#amenities">Diferenciais</a></li>
+    <li><a href="#airfield">Aviação</a></li>
+    <li><a href="#investment">Investimento</a></li>
+    <li><a href="#contato">Contato</a></li>
+  </ul>
+  <span class="nav-auth">© Renan Rass — Conceito Proprietário</span>
+</nav>
+
+<!-- HERO with video background -->
+<section class="hero">
+  <div class="hero-fallback"></div>
+  <div class="hero-overlay"></div>
+  <div class="hero-content">
+    <p class="eyebrow">Bahia, Brasil — Conceito Exclusivo de Investimento</p>
+    <h1 class="hero-title">Subauma<br><em>Marina Resort</em><br>&amp; Private Airfield</h1>
+    <div class="hero-div"></div>
+    <p class="hero-sub">O primeiro empreendimento residencial de ultra-luxo do Brasil integrado com marina circular para superyates, pista privativa de aviação e resort five-star — inserido numa reserva de Mata Atlântica virgem.</p>
+    <div class="hero-cta">
+      <a href="#localizacao" class="btn-gold">Ver Localização Real</a>
+      <a href="#contato" class="btn-outline">Solicitar Reunião</a>
+    </div>
+  </div>
+  <div class="scroll-ind"><div class="sline"></div><span>Scroll</span></div>
+</section>
+
+<!-- NUMBERS -->
+<div class="nbar">
+  <div class="ni fi"><div class="nv">1.280</div><div class="nl">Hectares Totais</div></div>
+  <div class="ni fi"><div class="nv">5,3km</div><div class="nl">Frente de Praia</div></div>
+  <div class="ni fi"><div class="nv">120</div><div class="nl">Vagas Marina</div></div>
+  <div class="ni fi"><div class="nv">1.800m</div><div class="nl">Pista de Aviação</div></div>
+  <div class="ni fi"><div class="nv">5★</div><div class="nl">Resort Integrado</div></div>
+</div>
+
+<!-- MAP -->
+<section id="localizacao">
+  <div class="map-hdr">
+    <div class="map-hdr-l fi">
+      <p class="se">Localização Real</p>
+      <h2 class="st">A área,<br>exatamente<br><em>onde está.</em></h2>
+      <div class="gl"></div>
+      <p class="sb">O polígono destacado representa o terreno real de <strong style="color:var(--gold)">1.280 hectares</strong> em Subauma, Bahia — com 5,3km de frente para o Oceano Atlântico, às margens da Linha Verde (BA-099), a 80km de Salvador.</p>
+    </div>
+    <div class="map-stats fi">
+      <div><div class="msv">80km</div><div class="msl">de Salvador</div></div>
+      <div><div class="msv">BA-099</div><div class="msl">Linha Verde</div></div>
+      <div><div class="msv">Bahia</div><div class="msl">Costa do Sauípe</div></div>
+    </div>
+  </div>
+  <div class="map-wrap"><div id="smap"></div></div>
+  <div class="map-cap">
+    <p>📍 Polígono real — Terreno Subauma 1.280 ha — Bahia, Brasil</p>
+    <div class="map-badge">Área delimitada pelo autor do conceito</div>
+    <p>© 2025 Renan Rass</p>
+  </div>
+</section>
+
+<!-- VISION -->
+<section id="vision" style="display:grid;grid-template-columns:1fr 1fr;gap:90px;align-items:center;background:var(--navy);">
+  <div class="vis-img fi" style="position:relative;overflow:hidden;height:500px;">
+    <img src="97.png" alt="Vista aérea Subauma" style="width:100%;height:100%;object-fit:cover;">
+    <div style="position:absolute;inset:0;border:1px solid rgba(201,168,76,.2);pointer-events:none;"></div>
+    <div class="vis-cap">Vista Aérea — Complexo Subauma · Bahia</div>
+  </div>
+  <div class="fi">
+    <p class="se">A Visão</p>
+    <h2 class="st">Um Novo<br>Paradigma de<br><em>Vida de Luxo</em></h2>
+    <div class="gl"></div>
+    <p class="sb">Subauma nasce de uma ideia simples e ao mesmo tempo revolucionária: criar um destino de vida onde o extraordinário é o padrão. Inserido na costa baiana, entre Mata Atlântica preservada e praias de águas cristalinas, o empreendimento integra residências de alto padrão, marina para superyates, resort five-star e aeródromo privativo em um único território planejado.</p>
+    <br>
+    <p class="sb">A proposta não é apenas a de um condomínio. É a criação de um ecossistema completo de luxo — um lugar onde cada detalhe foi desenhado para quem vive sem compromisso com o ordinário.</p>
+  </div>
+</section>
+
+<!-- MASTERPLAN -->
+<div class="mp-wrap">
+  <img src="99.png" alt="Masterplan Subauma">
+  <div class="mp-ov">
+    <div class="mp-text fi">
+      <p class="se">Masterplan</p>
+      <h2 class="st" style="color:var(--white)">Concebido<br>com <em>precisão</em></h2>
+      <div class="gl"></div>
+      <p class="sb">A implantação segue uma lógica de zonas: frente de praia com torres residenciais, marina circular ao centro, vilas em espiral no interior e aeródromo privativo na extremidade — tudo conectado por vias arborizadas e transporte elétrico autônomo.</p>
+    </div>
+  </div>
+</div>
+
+<!-- VIDEOS -->
+<section id="videos">
+  <div class="vh fi">
+    <p class="se">O Projeto em Movimento</p>
+    <h2 class="st">Veja<br><em>Subauma</em><br>ganhar vida.</h2>
+    <div class="gl"></div>
+  </div>
+  <div class="vgrid">
+    <div class="vcard fi" onclick="openLightbox('Empreendimento_Subauma_1.mp4','Vista Geral')">
+      <div class="vcard-poster" style="background-image:url('95.png')"></div>
+      <video preload="metadata" muted loop poster="95.png">
+        <source src="Empreendimento_Subauma_1.mp4" type="video/mp4">
+      </video>
+      <div class="vcard-play"><svg viewBox="0 0 24 24"><polygon points="5,3 19,12 5,21"/></svg></div>
+      <div class="vcard-overlay"><div class="vcard-title">Vista Geral</div></div>
+    </div>
+    <div class="vcard fi" onclick="openLightbox('Empreendimento_Subauma_2.mp4','Torres Residenciais')">
+      <div class="vcard-poster" style="background-image:url('96.png')"></div>
+      <video preload="metadata" muted loop poster="96.png">
+        <source src="Empreendimento_Subauma_2.mp4" type="video/mp4">
+      </video>
+      <div class="vcard-play"><svg viewBox="0 0 24 24"><polygon points="5,3 19,12 5,21"/></svg></div>
+      <div class="vcard-overlay"><div class="vcard-title">Torres Residenciais</div></div>
+    </div>
+    <div class="vcard fi" onclick="openLightbox('Marina_-_Barco.mp4','Marina &amp; Náutica')">
+      <div class="vcard-poster" style="background-image:url('98.png')"></div>
+      <video preload="metadata" muted loop poster="98.png">
+        <source src="Marina_-_Barco.mp4" type="video/mp4">
+      </video>
+      <div class="vcard-play"><svg viewBox="0 0 24 24"><polygon points="5,3 19,12 5,21"/></svg></div>
+      <div class="vcard-overlay"><div class="vcard-title">Marina &amp; Náutica</div></div>
+    </div>
+    <div class="vcard fi" onclick="openLightbox('Helicóptero_Sobrevoa_Empreendimento_Imobiliário.mp4','Sobrevoo de Helicóptero')">
+      <div class="vcard-poster" style="background-image:url('84.png')"></div>
+      <video preload="metadata" muted loop poster="84.png">
+        <source src="Helicóptero_Sobrevoa_Empreendimento_Imobiliário.mp4" type="video/mp4">
+      </video>
+      <div class="vcard-play"><svg viewBox="0 0 24 24"><polygon points="5,3 19,12 5,21"/></svg></div>
+      <div class="vcard-overlay"><div class="vcard-title">Sobrevoo de Helicóptero</div></div>
+    </div>
+    <div class="vcard fi" onclick="openLightbox('Resorte_-_Modelo_1.mp4','Resort &amp; Lifestyle')">
+      <div class="vcard-poster" style="background-image:url('91.png')"></div>
+      <video preload="metadata" muted loop poster="91.png">
+        <source src="Resorte_-_Modelo_1.mp4" type="video/mp4">
+      </video>
+      <div class="vcard-play"><svg viewBox="0 0 24 24"><polygon points="5,3 19,12 5,21"/></svg></div>
+      <div class="vcard-overlay"><div class="vcard-title">Resort &amp; Lifestyle</div></div>
+    </div>
+    <div class="vcard fi" onclick="openLightbox('Entrada_do_Shoroom_1.mp4','Showroom &amp; Recepção')">
+      <div class="vcard-poster" style="background-image:url('94.png')"></div>
+      <video preload="metadata" muted loop poster="94.png">
+        <source src="Entrada_do_Shoroom_1.mp4" type="video/mp4">
+      </video>
+      <div class="vcard-play"><svg viewBox="0 0 24 24"><polygon points="5,3 19,12 5,21"/></svg></div>
+      <div class="vcard-overlay"><div class="vcard-title">Showroom &amp; Recepção</div></div>
+    </div>
+  </div>
+</section>
+
+<!-- LIGHTBOX -->
+<div class="lightbox" id="lightbox">
+  <button class="lb-close" onclick="closeLightbox()">✕</button>
+  <div class="lb-video-wrap">
+    <video id="lb-video" controls playsinline></video>
+  </div>
+  <p class="lb-title" id="lb-title"></p>
+</div> id="lightbox" onclick="closeLightbox(event)">
+  <button class="lb-close" onclick="closeLightbox()">✕</button>
+  <video id="lb-video" controls style="max-width:90vw;max-height:80vh;outline:none;"></video>
+  <p class="lb-title" id="lb-title"></p>
+</div>
+
+<!-- AMENITIES -->
+<section id="amenities">
+  <div class="ah">
+    <p class="se">Diferenciais</p>
+    <h2 class="st">Tudo que<br><em>importa</em>, aqui.</h2>
+    <div class="gl"></div>
+  </div>
+  <div class="ag">
+    <div class="ac fi"><img src="100.png" alt="Marina"><div class="ai"><div class="an">01</div><div class="at2">Marina Circular</div><div class="ad">120 vagas para embarcações de até 60m. Serviços náuticos completos e acesso direto ao Atlântico.</div></div></div>
+    <div class="ac fi"><img src="93.png" alt="Praia"><div class="ai"><div class="an">02</div><div class="at2">Praia Privativa</div><div class="ad">5,3km de costa virgem com acesso exclusivo. Beach clubs e serviço five-star ao longo da orla.</div></div></div>
+    <div class="ac fi"><img src="92.png" alt="Pool"><div class="ai"><div class="an">03</div><div class="at2">Infinity Pools</div><div class="ad">Piscinas de borda infinita com vista para o mar e a marina, integradas às torres residenciais.</div></div></div>
+    <div class="ac fi"><img src="85.png" alt="Helipad"><div class="ai"><div class="an">04</div><div class="at2">Helipads Privados</div><div class="ad">Helipads no rooftop das torres e no complexo aeronáutico. Chegada sem fronteiras.</div></div></div>
+    <div class="ac fi"><img src="87.png" alt="Segurança AI"><div class="ai"><div class="an">05</div><div class="at2">Segurança AI</div><div class="ad">Central com inteligência artificial, câmeras 24h e detecção de anomalias em tempo real.</div></div></div>
+    <div class="ac fi"><img src="86.png" alt="Mobilidade"><div class="ai"><div class="an">06</div><div class="at2">Mobilidade Elétrica</div><div class="ad">Frota de shuttles elétricos autônomos circulando 24h. Zero emissão. Zero ruído.</div></div></div>
+  </div>
+</section>
+
+<!-- QUOTE -->
+<div class="qbreak">
+  <img src="93.png" alt="Vista da varanda">
+  <div class="qov">
+    <p class="qq">"Acordar com o mar à frente e um iate esperando na marina. Isso é Subauma."</p>
+    <p class="qa">— A promessa do projeto</p>
+  </div>
+</div>
+
+<!-- GALLERY STRIP -->
+<div class="gstrip">
+  <img src="91.png" alt="Torres"><img src="98.png" alt="Marina"><img src="80.png" alt="Restaurante"><img src="94.png" alt="Lobby"><img src="95.png" alt="Aéreo">
+</div>
+
+<!-- AIRFIELD -->
+<div id="airfield">
+  <div class="af-img fi"><img src="79.png" alt="Aeródromo Subauma"></div>
+  <div class="af-cont fi">
+    <p class="se">Aeródromo Privativo</p>
+    <h2 class="st">Chegar é<br>parte da<br><em>experiência</em></h2>
+    <div class="gl"></div>
+    <p class="sb">Subauma conta com infraestrutura aeronáutica completa — única em um empreendimento residencial no Brasil.</p>
+    <ul class="fl">
+      <li>Pista pavimentada de 1.800m para jatos executivos categoria Gulfstream G550</li>
+      <li>Hangar privativo com capacidade para até 20 aeronaves</li>
+      <li>Terminal FBO de padrão internacional com lounge exclusivo</li>
+      <li>Sala de reunião, concierge aeronáutico e serviços de handling</li>
+      <li>Helipads dedicados com gestão de tráfego independente</li>
+      <li>Transfer direto por veículo elétrico até a residência ou marina</li>
+    </ul>
+  </div>
+</div>
+
+<!-- DINING -->
+<div id="dining">
+  <div class="dn-cont fi">
+    <p class="se">Gastronomia & Lifestyle</p>
+    <h2 class="st">O sabor<br>da <em>exclusividade</em></h2>
+    <div class="gl"></div>
+    <p class="sb">Restaurantes à beira da marina com vista para os superyates, chefs residentes, adega climatizada e serviço de room dining 24h. Uma experiência gastronômica que rivaliza com os melhores destinos do mundo.</p>
+    <br>
+    <p class="sb">Do café da manhã na varanda com vista para o Atlântico ao jantar sob as estrelas na marina iluminada — em Subauma, cada refeição é um evento.</p>
+  </div>
+  <div class="dn-img fi"><img src="80.png" alt="Restaurante marina"></div>
+</div>
+
+<!-- INVESTMENT -->
+<section id="investment">
+  <div class="ah" style="max-width:700px;">
+    <p class="se">Oportunidade de Investimento</p>
+    <h2 class="st">Por que<br><em>Subauma</em>?</h2>
+    <div class="gl"></div>
+    <p class="sb" style="margin:0 auto;">Um projeto único que une escassez de localização, conceito original e demanda crescente do mercado HNWI brasileiro e internacional.</p>
+  </div>
+  <div class="ig">
+    <div class="ic fi"><div class="ii">🏖️</div><div class="it">Localização Única</div><p class="ip">Costa baiana com 1.280 hectares contíguos de terra à beira-mar. Ativo geográfico irreversível e impossível de replicar.</p></div>
+    <div class="ic fi"><div class="ii">✈️</div><div class="it">Conceito Inédito</div><p class="ip">Nenhum outro empreendimento no Brasil integra marina, aeródromo privativo, resort five-star e villas em um único território. First mover advantage.</p></div>
+    <div class="ic fi"><div class="ii">📈</div><div class="it">Alta Demanda HNWI</div><p class="ip">Mais de 250.000 HNWIs no Brasil com crescente demanda por ativos ultra-premium. Mercado em aceleração e forte interesse internacional.</p></div>
+  </div>
+</section>
+
+<!-- AUTHORSHIP -->
+<div id="autoria">
+  <div class="aseal fi"><div class="sm">Renan<br>Rass</div><div class="ss">Autor<br>do Conceito</div></div>
+  <div class="atxt fi">
+    <h3>Proteção de Autoria e Propriedade Intelectual</h3>
+    <p>Todo o conceito, masterplan, programação de usos, estratégia de implantação e documentação associada ao empreendimento Subauma Marina Resort & Private Airfield são de autoria exclusiva de <strong>Renan Rass</strong>, conforme Declaração de Autoria formalmente registrada.</p>
+    <p>A divulgação é feita em regime de confidencialidade, respaldada por NDA e Contrato de Desenvolvimento específicos. A utilização, reprodução ou desenvolvimento deste conceito sem autorização expressa constitui infração de propriedade intelectual.</p>
+    <span class="abadge">Conceito Registrado — © 2024/2025 Renan Rass</span>
+  </div>
+</div>
+
+<!-- CONFIDENTIAL -->
+<div class="confbanner">
+  <p>🔒 Material Confidencial — Exclusivo para Investidores Qualificados</p>
+  <p>NDA + LOI Disponíveis para Assinatura Digital</p>
+  <p>© 2025 Renan Rass — Todos os Direitos Reservados</p>
+</div>
+
+<!-- CONTACT -->
+<section id="contato">
+  <div class="ct-img fi"><img src="94.png" alt="Lobby Resort Subauma"></div>
+  <div class="fi">
+    <p class="se">Contato Direto</p>
+    <h2 class="st">Vamos<br><em>conversar</em></h2>
+    <div class="gl"></div>
+    <p class="sb" style="margin-bottom:36px;">Preencha o formulário para receber o pacote completo: viabilidade financeira, estudo de concorrência e minuta de LOI/NDA.</p>
+    <form id="cform" action="https://formspree.io/f/xaqdvyde" method="POST">
+      <div class="fg"><label>Nome Completo</label><input type="text" name="name" placeholder="Seu nome" required></div>
+      <div class="fg"><label>E-mail</label><input type="email" name="email" placeholder="seu@email.com" required></div>
+      <div class="fg"><label>Telefone / WhatsApp</label><input type="text" name="phone" placeholder="+55 (00) 00000-0000"></div>
+      <div class="fg"><label>Perfil de Investidor</label>
+        <select name="profile">
+          <option value="">Selecione...</option>
+          <option>Investidor Individual HNWI</option>
+          <option>Family Office</option>
+          <option>Fundo de Investimento / PE</option>
+          <option>Incorporadora / Desenvolvedor</option>
+          <option>Parceiro Estratégico</option>
+          <option>Outro</option>
+        </select>
+      </div>
+      <div class="fg"><label>Mensagem</label><textarea name="message" placeholder="Descreva seu interesse..."></textarea></div>
+      <input type="hidden" name="_subject" value="[SUBAUMA] Interesse de Investidor">
+      <input type="hidden" name="_replyto" value="renanrass.contato@gmail.com">
+      <button type="submit" class="fsub">Solicitar Pacote de Investimento</button>
+      <p class="fnote">⚠ Toda consulta fica registrada. Ao enviar, você reconhece ter recebido material protegido por propriedade intelectual de Renan Rass.</p>
+    </form>
+    <div class="fsuccess" id="fsuc">Obrigado pela sua mensagem.<br>Entraremos em contato em breve.</div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <div><div class="fbrand">SUBAUMA</div><div class="ftag">Marina Resort &amp; Private Airfield — Bahia, Brasil</div></div>
+  <div class="fleg">© 2025 Renan Rass. Conceito exclusivo. Todos os direitos reservados.<br>Material confidencial destinado ao destinatário indicado.<br>Reprodução não autorizada é estritamente proibida.<br><a href="/cdn-cgi/l/email-protection" class="__cf_email__" data-cfemail="6a180f040b04180b1919440905041e0b1e052a0d070b030644090507">[email&#160;protected]</a></div>
+</footer>
+
+<script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+<script>
+// MAP
+const coords=[[-12.25265866651923,-37.85371339563136],[-12.25880442946079,-37.82189724936656],[-12.27046022892758,-37.79612420998167],[-12.25273964802155,-37.78258495505744],[-12.23739312908974,-37.84401429901072]];
+const cLat=coords.reduce((s,c)=>s+c[0],0)/coords.length;
+const cLng=coords.reduce((s,c)=>s+c[1],0)/coords.length;
+const map=L.map('smap',{center:[cLat,cLng],zoom:13,scrollWheelZoom:false});
+L.tileLayer('https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}',{attribution:'Tiles © Esri',maxZoom:19}).addTo(map);
+L.tileLayer('https://server.arcgisonline.com/ArcGIS/rest/services/Reference/World_Boundaries_and_Places/MapServer/tile/{z}/{y}/{x}',{attribution:'',maxZoom:19,opacity:0.75}).addTo(map);
+const poly=L.polygon(coords,{color:'#C9A84C',weight:3,opacity:1,fillColor:'#C9A84C',fillOpacity:0.15}).addTo(map);
+poly.bindPopup('<strong>SUBAUMA — Área do Projeto</strong><br>1.280 ha · 5,3km de praia<br>Linha Verde BA-099 — Bahia<br><small style="color:#8a6f2e">© Renan Rass — Conceito Proprietário</small>');
+let ph=0;setInterval(()=>{ph=(ph+1)%2;poly.setStyle({opacity:ph?0.5:1});},1200);
+const mk=L.divIcon({className:'',html:'<div style="width:14px;height:14px;border-radius:50%;background:#C9A84C;border:3px solid #fff;box-shadow:0 0 14px rgba(201,168,76,0.9)"></div>',iconSize:[14,14],iconAnchor:[7,7]});
+L.marker([cLat,cLng],{icon:mk}).addTo(map).bindTooltip('Subauma Marina Resort & Private Airfield',{direction:'top'});
+map.fitBounds(poly.getBounds(),{padding:[60,60]});
+
+
+// VIDEO hover preview
+document.querySelectorAll('.vcard').forEach(card => {
+  const v = card.querySelector('video');
+  if (!v) return;
+  card.addEventListener('mouseenter', () => {
+    v.play().then(() => v.classList.add('playing')).catch(()=>{});
+  });
+  card.addEventListener('mouseleave', () => {
+    v.pause(); v.currentTime = 0; v.classList.remove('playing');
+  });
+});
+
+// LIGHTBOX
+function openLightbox(src, title) {
+  const lb = document.getElementById('lightbox');
+  const v  = document.getElementById('lb-video');
+  v.src = src; v.load(); v.play();
+  document.getElementById('lb-title').textContent = title;
+  lb.classList.add('open');
+  document.body.style.overflow = 'hidden';
+}
+function closeLightbox() {
+  const v = document.getElementById('lb-video');
+  v.pause(); v.removeAttribute('src'); v.load();
+  document.getElementById('lightbox').classList.remove('open');
+  document.body.style.overflow = '';
+}
+document.addEventListener('keydown', e => { if (e.key === 'Escape') closeLightbox(); });
+document.getElementById('lightbox').addEventListener('click', function(e) {
+  if (e.target === this) closeLightbox();
+});
+
+// FADE IN
+const obs=new IntersectionObserver(en=>{en.forEach(e=>{if(e.isIntersecting)e.target.classList.add('vis')});},{threshold:0.1});
+document.querySelectorAll('.fi').forEach(el=>obs.observe(el));
+
+// FORM
+document.getElementById('cform').addEventListener('submit',async e=>{
+  e.preventDefault();
+  const btn=e.target.querySelector('.fsub');
+  btn.textContent='Enviando...';btn.disabled=true;
+  try{
+    const r=await fetch(e.target.action,{method:'POST',body:new FormData(e.target),headers:{'Accept':'application/json'}});
+    if(r.ok){e.target.style.displ
