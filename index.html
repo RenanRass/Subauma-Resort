@@ -6,6 +6,7 @@
 <meta name="author" content="Renan Rass">
 <title>SUBAUMA — Marina Resort &amp; Private Airfield · Bahia</title>
 <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"/>
+<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&family=Montserrat:wght@200;300;400;500;600;700&display=swap" rel="stylesheet">
 <style>
@@ -675,7 +676,7 @@ footer{background:var(--navy);padding:54px 80px 42px;display:flex;justify-conten
     </div>
   </div>
   <div class="mwrap" style="height:560px;position:relative;">
-    <div id="smap" style="position:absolute;inset:0;width:100%;height:100%;"></div>
+    <div id="smap" style="position:absolute;top:0;left:0;right:0;bottom:0;width:100%;height:560px;"></div>
     <div style="position:absolute;top:0;left:0;right:0;height:50px;background:linear-gradient(to bottom,var(--nm),transparent);pointer-events:none;z-index:10;"></div>
     <div style="position:absolute;bottom:0;left:0;right:0;height:70px;background:linear-gradient(to top,var(--nm),transparent);pointer-events:none;z-index:10;"></div>
   </div>
@@ -1304,7 +1305,7 @@ function mpStartAuto() {
   mpStartAuto();
 })();
 
-</script><script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+</script>
 <script>
 document.addEventListener('DOMContentLoaded', function() {
 
@@ -1315,9 +1316,13 @@ window.addEventListener('scroll', function(){
 });
 
 /* ── MAP: Leaflet + Polígono real KML Subauma 1.280ha ── */
-(function initMap() {
+function initLeafletMap() {
   var mapEl = document.getElementById('smap');
-  if (!mapEl || typeof L === 'undefined') return;
+  if (!mapEl || typeof L === 'undefined') { 
+    console.warn('Map: element or Leaflet not ready');
+    return; 
+  }
+  if (mapEl._leaflet_id) return; /* already initialized */
 
   /* Coordenadas reais do KML (lat, lng) */
   var kmlCoords = [
@@ -1391,7 +1396,15 @@ window.addEventListener('scroll', function(){
     return div;
   };
   openBtn.addTo(map);
-})();
+  /* Force map to recalculate size after layout settles */
+  setTimeout(function() { map.invalidateSize(); }, 300);
+}
+/* Try immediately, then fallback to window.onload */
+if (document.readyState === 'complete') {
+  initLeafletMap();
+} else {
+  window.addEventListener('load', initLeafletMap);
+}
 
 
 /* ── INVESTMENT TABS ── */
