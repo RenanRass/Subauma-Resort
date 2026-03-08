@@ -257,8 +257,7 @@ h1.ht em{font-style:italic;color:var(--gl);}
 .inv-tab{padding:14px 32px;font-size:9.5px;letter-spacing:2.5px;text-transform:uppercase;color:var(--dim);cursor:pointer;border-bottom:2px solid transparent;transition:all .3s;background:none;border-left:none;border-right:none;border-top:none;font-family:'Montserrat',sans-serif;}
 .inv-tab:hover{color:var(--white);}
 .inv-tab.active{color:var(--gold);border-bottom-color:var(--gold);}
-.inv-panel{display:none;}
-.inv-panel.active{display:block !important;}
+.inv-panel{}.inv-panel.active{display:block;}
 .inv-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:2px;margin-bottom:48px;}
 .inv-card{background:var(--nl);padding:36px 32px;border:1px solid var(--border);position:relative;overflow:hidden;}
 .inv-card::before{content:'';position:absolute;top:0;left:0;right:0;height:3px;background:var(--gold);transform:scaleX(0);transform-origin:left;transition:transform .4s;}
@@ -838,6 +837,7 @@ footer{background:var(--navy);padding:54px 80px 42px;display:flex;justify-conten
     <button class="inv-tab" onclick="invTab('aero-inv')">Aeródromo</button>
   </div>
 
+  <!-- ── VISÃO GERAL ── -->
   <div class="inv-panel active" id="tab-overview">
     <div class="inv-grid">
       <div class="inv-card">
@@ -846,124 +846,172 @@ footer{background:var(--navy);padding:54px 80px 42px;display:flex;justify-conten
         <div class="inv-card-desc">Capex total em 4 fases: Infraestrutura (R$680M) + Aeródromo (R$480M) + Resort &amp; Marina (R$1,82B) + Residencial (R$1,1B).</div>
       </div>
       <div class="inv-card">
-        <div class="inv-card-label">VGV Projetado</div>
+        <div class="inv-card-label">VGV Total Projetado</div>
         <div class="inv-card-value">R$ 7,5B</div>
-        <div class="inv-card-desc">Receitas de vendas (R$2,9B) + operação resort 10 anos VPL (R$4,5B) + hangares (R$225M).</div>
+        <div class="inv-card-desc">Vendas R$2,9B + Operação resort VPL 10 anos R$4,5B + Hangares R$225M.</div>
       </div>
       <div class="inv-card">
         <div class="inv-card-label">ROI · TIR · Payback</div>
         <div class="inv-card-value">167%</div>
-        <div class="inv-card-desc">Retorno sobre investimento de 167% em 8 anos. TIR estimada: 18–22% a.a. Payback: 6–7 anos.</div>
+        <div class="inv-card-desc">Retorno 167% em 8 anos. TIR: 18–22% a.a. Payback: 6–7 anos.</div>
       </div>
     </div>
-    <!-- Investment breakdown table -->
     <table class="inv-table" style="margin-bottom:28px;">
       <thead>
         <tr><th>Fase</th><th>Descrição</th><th>Prazo</th><th>Investimento</th></tr>
       </thead>
       <tbody>
-        <tr><td>Fase 1</td><td>Infraestrutura Base (terraplanagem, vias, utilities)</td><td>18–24 meses</td><td class="td-val">R$ 680M</td></tr>
-        <tr><td>Fase 2A</td><td>Aeródromo Executivo (pista, hangares, FBO, torre)</td><td>14–18 meses</td><td class="td-val">R$ 480M</td></tr>
-        <tr><td>Fase 2B</td><td>Resort 5★ + Marina Circular (600 UHs + 200 vagas)</td><td>24–30 meses</td><td class="td-val">R$ 1,82B</td></tr>
-        <tr><td>Fase 3</td><td>Desenvolvimento Residencial (850 lotes + chalés + apts)</td><td>36–48 meses</td><td class="td-val">R$ 1,1B</td></tr>
-        <tr><td>+</td><td>Projetos, Licenças, Marketing</td><td>24–26 meses</td><td class="td-val">R$ 220M</td></tr>
+        <tr><td><strong>Fase 1</strong></td><td>Infraestrutura Base (terraplanagem, 45km vias, água/esgoto, energia, telecom)</td><td>18–24 meses</td><td class="td-val"><strong>R$ 680M</strong></td></tr>
+        <tr><td>Fase 2A</td><td>Aeródromo Executivo (pista 1.800m, 15 hangares, FBO, torre de controle)</td><td>14–18 meses</td><td class="td-val">R$ 460M</td></tr>
+        <tr><td>Fase 2B</td><td>Resort 5★ 600 UHs + Marina 200 vagas + Beach Club + Spa + Golf</td><td>24–30 meses</td><td class="td-val">R$ 1,82B</td></tr>
+        <tr><td>Fase 3</td><td>Desenvolvimento Residencial (850 lotes + 150 chalés + 100 apts)</td><td>36–48 meses</td><td class="td-val">R$ 1,1B</td></tr>
+        <tr><td>+</td><td>Projetos, Licenças (EIA/RIMA, ANAC, LP/LI/LO), Marketing</td><td>24–26 meses</td><td class="td-val">R$ 220M</td></tr>
       </tbody>
     </table>
     <div class="inv-roi-banner">
       <div>
         <div class="inv-roi-label">ROI Total Estimado</div>
         <div class="inv-roi-val">167%</div>
-        <div style="font-size:10px;color:var(--gd);margin-top:4px;">TIR: 18–22% a.a.</div>
+        <div style="font-size:10px;color:var(--gd);margin-top:4px;">TIR: 18–22% a.a. · Payback: 6–7 anos</div>
       </div>
-      <div class="inv-roi-desc">O terreno adquirido por <strong style="color:var(--gold)">R$125K/ha</strong> (total R$160M) tem potencial de gerar VGV de R$7,5 bilhões com o desenvolvimento completo — uma valorização de <strong style="color:var(--gold)">5 a 10x</strong> sobre o custo de aquisição. Comparativo: concorrentes da região são vendidos a R$3.000–4.000/m² de lote urbanizado vs. nosso custo de aquisição de R$12,50/m².</div>
+      <div class="inv-roi-desc">O terreno adquirido por <strong style="color:var(--gold)">R$125K/ha</strong> (total R$160M) tem potencial de gerar VGV de R$7,5 bilhões com o desenvolvimento completo — uma valorização de <strong style="color:var(--gold)">5 a 10×</strong> sobre o custo de aquisição. Concorrentes da região vendem lotes urbanizados a R$3.000–4.000/m² — nosso custo de aquisição é de R$12,50/m².</div>
       <a href="#contato" class="btn-secondary">Solicitar Estudo de Viabilidade</a>
     </div>
   </div>
 
-  <div class="inv-panel" id="tab-marina-inv" style="display:none">
+  <!-- ── MARINA ── -->
+  <div class="inv-panel" id="tab-marina-inv">
     <div class="inv-grid">
-      <div class="inv-card"><div class="inv-card-label">Investimento Marina</div><div class="inv-card-value">R$ 280M</div><div class="inv-card-desc">Marina circular com 200 vagas, restaurantes, clube náutico e infraestrutura completa.</div></div>
-      <div class="inv-card"><div class="inv-card-label">Vagas náuticas</div><div class="inv-card-value">200</div><div class="inv-card-desc">200 vagas para embarcações de até 60m. VPL receitas náuticas em 10 anos: R$ 192M.</div></div>
-      <div class="inv-card"><div class="inv-card-label">Receita VPL 10 anos</div><div class="inv-card-value">R$ 192M</div><div class="inv-card-desc">Receita operacional da marina: vagas, combustível, manutenção, dry storage e customs facility.</div></div>
+      <div class="inv-card">
+        <div class="inv-card-label">Investimento Marina</div>
+        <div class="inv-card-value">R$ 280M</div>
+        <div class="inv-card-desc">Marina circular 200 vagas + restaurantes + clube náutico + infraestrutura completa.</div>
+      </div>
+      <div class="inv-card">
+        <div class="inv-card-label">Vagas Náuticas</div>
+        <div class="inv-card-value">200</div>
+        <div class="inv-card-desc">200 vagas para embarcações até 60m. VPL receitas náuticas em 10 anos: R$192M.</div>
+      </div>
+      <div class="inv-card">
+        <div class="inv-card-label">VPL Restaurantes 10a</div>
+        <div class="inv-card-value">R$ 540M</div>
+        <div class="inv-card-desc">3 restaurantes fine dining + casual + beachfront. VPL operação 10 anos.</div>
+      </div>
     </div>
     <table class="inv-table" style="margin-top:24px;">
-      <thead><tr><th>Item</th><th>Especificação</th><th>Custo</th></tr></thead>
+      <thead><tr><th>Item</th><th>Especificação</th><th>Valor</th></tr></thead>
       <tbody>
-        <tr><td>Marina Circular</td><td>200 vagas + restaurantes + clube náutico</td><td class="td-val">R$ 280M</td></tr>
-        <tr><td>Beach Club Premium</td><td>5.000 m² + infinity pools</td><td class="td-val">R$ 120M</td></tr>
-        <tr><td>Receita vagas (VPL)</td><td>200 vagas × 10 anos operação</td><td class="td-val">R$ 192M</td></tr>
-        <tr><td>Restaurantes (VPL)</td><td>3 restaurantes fine dining + casual</td><td class="td-val">R$ 540M</td></tr>
-        <tr><td>Beach Club (VPL)</td><td>Operação 10 anos</td><td class="td-val">R$ 120M</td></tr>
+        <tr><td>Marina Circular</td><td>200 vagas + restaurantes + clube náutico</td><td class="td-val">R$ 280M invest.</td></tr>
+        <tr><td>Beach Club Premium</td><td>5.000 m² + infinity pools</td><td class="td-val">R$ 120M invest.</td></tr>
+        <tr><td>VPL vagas náuticas</td><td>200 vagas · 10 anos operação</td><td class="td-val">R$ 192M</td></tr>
+        <tr><td>VPL restaurantes</td><td>3 restaurantes · 10 anos operação</td><td class="td-val">R$ 540M</td></tr>
+        <tr><td>VPL beach club</td><td>Operação 10 anos</td><td class="td-val">R$ 120M</td></tr>
       </tbody>
     </table>
   </div>
 
-  <div class="inv-panel" id="tab-resort-inv" style="display:none">
+  <!-- ── RESORT ── -->
+  <div class="inv-panel" id="tab-resort-inv">
     <div class="inv-grid">
-      <div class="inv-card"><div class="inv-card-label">Investimento Resort</div><div class="inv-card-value">R$ 1,82B</div><div class="inv-card-desc">Hotel 600 UHs + marina + beach club + spa + restaurantes + parque aquático + campo de golfe.</div></div>
-      <div class="inv-card"><div class="inv-card-label">Unidades Hoteleiras</div><div class="inv-card-value">600 UHs</div><div class="inv-card-desc">Hotel principal 5 estrelas. VPL receita hoteleira estimada em 10 anos: R$ 1,02B.</div></div>
-      <div class="inv-card"><div class="inv-card-label">VPL Operação 10 anos</div><div class="inv-card-value">R$ 4,5B</div><div class="inv-card-desc">Total resort + marina + restaurantes + beach club + comercial em 10 anos de operação.</div></div>
+      <div class="inv-card">
+        <div class="inv-card-label">Investimento Resort</div>
+        <div class="inv-card-value">R$ 1,82B</div>
+        <div class="inv-card-desc">Hotel 600 UHs + marina + beach club + spa + restaurantes + parque aquático + golf.</div>
+      </div>
+      <div class="inv-card">
+        <div class="inv-card-label">UHs Hoteleiras</div>
+        <div class="inv-card-value">600 UHs</div>
+        <div class="inv-card-desc">Hotel principal 5 estrelas. VPL receita hoteleira 10 anos: R$1,02B.</div>
+      </div>
+      <div class="inv-card">
+        <div class="inv-card-label">VPL Operação 10 anos</div>
+        <div class="inv-card-value">R$ 4,5B</div>
+        <div class="inv-card-desc">Resort + marina + restaurantes + beach club + comercial em 10 anos.</div>
+      </div>
     </div>
     <table class="inv-table" style="margin-top:24px;">
       <thead><tr><th>Item</th><th>Especificação</th><th>Investimento</th></tr></thead>
       <tbody>
         <tr><td>Hotel Principal</td><td>600 UHs · 5 estrelas · Flag internacional</td><td class="td-val">R$ 900M</td></tr>
-        <tr><td>Spa &amp; Wellness</td><td>3.500 m² com tratamentos premium</td><td class="td-val">R$ 85M</td></tr>
+        <tr><td>Spa &amp; Wellness</td><td>3.500 m² tratamentos premium</td><td class="td-val">R$ 85M</td></tr>
         <tr><td>Restaurantes (3)</td><td>Fine dining + casual + beachfront</td><td class="td-val">R$ 60M</td></tr>
-        <tr><td>Parque Aquático</td><td>15.000 m² família premium</td><td class="td-val">R$ 150M</td></tr>
-        <tr><td>Centro Convenções</td><td>4.000 m² para eventos corporativos</td><td class="td-val">R$ 80M</td></tr>
+        <tr><td>Parque Aquático</td><td>15.000 m² familiar premium</td><td class="td-val">R$ 150M</td></tr>
+        <tr><td>Centro de Convenções</td><td>4.000 m² eventos corporativos</td><td class="td-val">R$ 80M</td></tr>
         <tr><td>Golf Course</td><td>9 holes executivo</td><td class="td-val">R$ 45M</td></tr>
         <tr><td>Shopping Boulevard</td><td>8.000 m² · 40 lojas</td><td class="td-val">R$ 100M</td></tr>
-        <tr><td>FF&amp;E Total</td><td>Mobiliário e equipamentos</td><td class="td-val">R$ 180M</td></tr>
+        <tr><td>FF&amp;E Completo</td><td>Mobiliário + equipamentos hoteleiros</td><td class="td-val">R$ 180M</td></tr>
       </tbody>
     </table>
   </div>
 
-  <div class="inv-panel" id="tab-residencial-inv" style="display:none">
+  <!-- ── RESIDENCIAL ── -->
+  <div class="inv-panel" id="tab-residencial-inv">
     <div class="inv-grid" style="margin-bottom:24px;">
-      <div class="inv-card"><div class="inv-card-label">Total de unidades</div><div class="inv-card-value">850</div><div class="inv-card-desc">850 lotes + 150 chalés + 100 apartamentos beira-mar. Zona residencial: 450 hectares.</div></div>
-      <div class="inv-card"><div class="inv-card-label">VGV Residencial</div><div class="inv-card-value">R$ 2,67B</div><div class="inv-card-desc">Lotes premium (R$900M) + lotes standard (R$949M) + chalés (R$375M) + apts (R$450M).</div></div>
-      <div class="inv-card"><div class="inv-card-label">Investimento Fase 3</div><div class="inv-card-value">R$ 1,1B</div><div class="inv-card-desc">Urbanização + construção de chalés e apartamentos. Prazo: 36–48 meses.</div></div>
+      <div class="inv-card">
+        <div class="inv-card-label">Total Unidades</div>
+        <div class="inv-card-value">875</div>
+        <div class="inv-card-desc">850 lotes + 150 chalés + 100 apartamentos beira-mar. Zona residencial: 450 hectares.</div>
+      </div>
+      <div class="inv-card">
+        <div class="inv-card-label">VGV Residencial</div>
+        <div class="inv-card-value">R$ 2,67B</div>
+        <div class="inv-card-desc">Lotes premium R$900M + standard R$949M + chalés R$375M + apts R$450M.</div>
+      </div>
+      <div class="inv-card">
+        <div class="inv-card-label">Investimento Fase 3</div>
+        <div class="inv-card-value">R$ 1,1B</div>
+        <div class="inv-card-desc">Urbanização + construção chalés e apartamentos. Prazo: 36–48 meses.</div>
+      </div>
     </div>
     <table class="inv-table">
       <thead>
-        <tr><th>Tipologia</th><th>Qtd.</th><th>Área</th><th>Preço Médio</th><th>VGV</th><th>Prazo</th></tr>
+        <tr><th>Tipologia</th><th>Qtd.</th><th>Área</th><th>Preço Médio</th><th>VGV</th></tr>
       </thead>
       <tbody>
-        <tr><td>Lotes Premium Frente-Mar</td><td>180</td><td class="td-val">1.500–2.500m²</td><td class="td-val">R$ 5,0M</td><td class="td-val">R$ 900M</td><td>36 meses</td></tr>
-        <tr><td>Lotes Standard</td><td>420</td><td class="td-val">1.000–1.500m²</td><td class="td-val">R$ 2,26M</td><td class="td-val">R$ 949M</td><td>36 meses</td></tr>
-        <tr><td>Condomínio de Chalés</td><td>150</td><td class="td-val">350m² cada</td><td class="td-val">R$ 2,5M</td><td class="td-val">R$ 375M</td><td>48 meses</td></tr>
-        <tr><td>Apartamentos Beira-Mar</td><td>100</td><td class="td-val">180–350m²</td><td class="td-val">R$ 4,5M</td><td class="td-val">R$ 450M</td><td>48 meses</td></tr>
-        <tr><td>Hangares Executivos (venda)</td><td>15</td><td class="td-val">400–1.000m²</td><td class="td-val">R$ 15M</td><td class="td-val">R$ 225M</td><td>30 meses</td></tr>
-        <tr style="background:rgba(201,168,76,.06);font-weight:500;"><td><strong>TOTAL</strong></td><td><strong>875</strong></td><td>—</td><td>—</td><td class="td-val"><strong>R$ 2,9B</strong></td><td>—</td></tr>
+        <tr><td>Lotes Premium Frente-Mar</td><td>180</td><td class="td-val">1.500–2.500m²</td><td class="td-val">R$ 5,0M</td><td class="td-val">R$ 900M</td></tr>
+        <tr><td>Lotes Standard</td><td>420</td><td class="td-val">1.000–1.500m²</td><td class="td-val">R$ 2,26M</td><td class="td-val">R$ 949M</td></tr>
+        <tr><td>Condomínio de Chalés</td><td>150</td><td class="td-val">350m² cada</td><td class="td-val">R$ 2,5M</td><td class="td-val">R$ 375M</td></tr>
+        <tr><td>Apartamentos Beira-Mar</td><td>100</td><td class="td-val">180–350m²</td><td class="td-val">R$ 4,5M</td><td class="td-val">R$ 450M</td></tr>
+        <tr><td>Hangares Executivos (venda)</td><td>15</td><td class="td-val">400–1.000m²</td><td class="td-val">R$ 15M</td><td class="td-val">R$ 225M</td></tr>
+        <tr style="background:rgba(201,168,76,.07);"><td><strong>TOTAL</strong></td><td><strong>875</strong></td><td>—</td><td>—</td><td class="td-val"><strong>R$ 2,9B</strong></td></tr>
       </tbody>
     </table>
     <p style="font-size:10px;color:var(--gd);margin-top:14px;">* Tabela de preços detalhada por lote disponível mediante assinatura de NDA. Preços em R$ de fevereiro/2026.</p>
   </div>
 
-  <div class="inv-panel" id="tab-aero-inv" style="display:none">
+  <!-- ── AERÓDROMO ── -->
+  <div class="inv-panel" id="tab-aero-inv">
     <div class="inv-grid" style="margin-bottom:24px;">
-      <div class="inv-card"><div class="inv-card-label">Investimento Aeródromo</div><div class="inv-card-value">R$ 480M</div><div class="inv-card-desc">Pista 1.800m + 15 hangares executivos + FBO 2.500m² + torre de controle + sistemas IFR.</div></div>
-      <div class="inv-card"><div class="inv-card-label">Hangares (venda)</div><div class="inv-card-value">R$ 225M</div><div class="inv-card-desc">15 hangares executivos de 400–1.000m² vendidos a R$15M/unidade.</div></div>
-      <div class="inv-card"><div class="inv-card-label">Categoria Operacional</div><div class="inv-card-value">Cat. 4C / IFR</div><div class="inv-card-desc">Pista 1.800m × 45m para Gulfstream G550, Embraer Legacy, Bombardier Global. Operação noturna IFR.</div></div>
+      <div class="inv-card">
+        <div class="inv-card-label">Investimento Aeródromo</div>
+        <div class="inv-card-value">R$ 480M</div>
+        <div class="inv-card-desc">Pista 1.800m + 15 hangares + FBO 2.500m² + torre + sistemas IFR.</div>
+      </div>
+      <div class="inv-card">
+        <div class="inv-card-label">Hangares (venda)</div>
+        <div class="inv-card-value">R$ 225M</div>
+        <div class="inv-card-desc">15 hangares executivos 400–1.000m² vendidos a R$15M/unidade.</div>
+      </div>
+      <div class="inv-card">
+        <div class="inv-card-label">Categoria</div>
+        <div class="inv-card-value">Cat. 4C/IFR</div>
+        <div class="inv-card-desc">Pista 1.800m × 45m para Gulfstream G550, Legacy, Global. Operação noturna IFR.</div>
+      </div>
     </div>
     <table class="inv-table">
       <thead><tr><th>Item</th><th>Especificação</th><th>Custo</th></tr></thead>
       <tbody>
         <tr><td>Pista de Pouso/Decolagem</td><td>Asfalto aeronáutico 1.800m × 45m (Cat. 4C)</td><td class="td-val">R$ 180M</td></tr>
-        <tr><td>15 Hangares Executivos</td><td>400–1.000 m² cada (venda: R$15M/un)</td><td class="td-val">R$ 120M</td></tr>
-        <tr><td>Terminal FBO</td><td>2.500 m² · padrão internacional · sala VIP</td><td class="td-val">R$ 45M</td></tr>
+        <tr><td>15 Hangares Executivos</td><td>400–1.000m² cada · Venda R$15M/un</td><td class="td-val">R$ 120M</td></tr>
+        <tr><td>Terminal FBO Internacional</td><td>2.500m² · sala VIP · padrão internacional</td><td class="td-val">R$ 45M</td></tr>
         <tr><td>Torre de Controle</td><td>Estrutura + equipamentos de navegação</td><td class="td-val">R$ 20M</td></tr>
-        <tr><td>Sistema IFR / Iluminação</td><td>Operação noturna categoria I/II</td><td class="td-val">R$ 15M</td></tr>
+        <tr><td>Sistema IFR / Iluminação</td><td>Operação noturna Cat. I/II</td><td class="td-val">R$ 15M</td></tr>
         <tr><td>Abastecimento Jet-A1</td><td>Tanques + sistema distribuição</td><td class="td-val">R$ 25M</td></tr>
-        <tr><td>Heliponto Cat. 1</td><td>Completo com balizamento</td><td class="td-val">R$ 8M</td></tr>
-        <tr><td>Rádio Navegação</td><td>NDB/VOR/ILS + meteorologia</td><td class="td-val">R$ 15M + R$ 8M</td></tr>
+        <tr><td>Heliponto Cat.1 + Rádio Nav.</td><td>NDB/VOR/ILS + meteorologia</td><td class="td-val">R$ 23M</td></tr>
       </tbody>
     </table>
   </div>
 </section>
-
-<!-- ══ ETAPAS / TIMELINE ══ -->
 <section id="etapas">
   <div class="etapas-header">
     <div class="eyebrow">Cronograma</div>
@@ -1407,34 +1455,43 @@ if (document.readyState === 'complete') {
 }
 
 
-/* ── INVESTMENT TABS ── */
-function invTab(id) {
-  /* Buttons */
-  var tabBtns = document.querySelectorAll('.inv-tab');
-  tabBtns.forEach(function(t) { t.classList.remove('active'); });
-  var tabMap = {
-    'overview':       0,
-    'marina-inv':     1,
-    'resort-inv':     2,
-    'residencial-inv':3,
-    'aero-inv':       4
-  };
-  if (tabBtns[tabMap[id]]) tabBtns[tabMap[id]].classList.add('active');
+/* ── INVESTMENT TABS — bulletproof ── */
+var INV_PIDS = ['overview','marina-inv','resort-inv','residencial-inv','aero-inv'];
 
-  /* Panels — use setAttribute to beat inline !important */
-  var pids = ['overview','marina-inv','resort-inv','residencial-inv','aero-inv'];
-  pids.forEach(function(pid) {
+function invTab(id) {
+  /* 1 — Buttons */
+  document.querySelectorAll('.inv-tab').forEach(function(t, i) {
+    if (INV_PIDS[i] === id) { t.classList.add('active'); }
+    else { t.classList.remove('active'); }
+  });
+  /* 2 — Panels: force inline style + class */
+  INV_PIDS.forEach(function(pid) {
     var el = document.getElementById('tab-' + pid);
     if (!el) return;
     if (pid === id) {
-      el.setAttribute('style', 'display:block');
+      el.style.cssText = 'display:block !important';
       el.classList.add('active');
     } else {
-      el.setAttribute('style', 'display:none');
+      el.style.cssText = 'display:none !important';
       el.classList.remove('active');
     }
   });
 }
+
+/* Init: hide all non-active panels on load */
+document.addEventListener('DOMContentLoaded', function() {
+  INV_PIDS.forEach(function(pid) {
+    var el = document.getElementById('tab-' + pid);
+    if (!el) return;
+    if (pid === 'overview') {
+      el.style.cssText = 'display:block !important';
+      el.classList.add('active');
+    } else {
+      el.style.cssText = 'display:none !important';
+      el.classList.remove('active');
+    }
+  });
+});
 
 /* ── LIGHTBOX (vídeo) ── */
 var LB,LBV,LBT;
