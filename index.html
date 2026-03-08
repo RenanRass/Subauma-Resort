@@ -110,9 +110,6 @@ h1.ht em{font-style:italic;color:var(--gl);}
 #masterplan{background:var(--navy);padding:110px 80px;}
 .mp-header{max-width:700px;margin:0 auto 50px;text-align:center;}
 .mp-header .divider{margin:0 auto 24px;}
-.mp-container{position:relative;width:100%;background:var(--nl);border:1px solid var(--border);overflow:hidden;}
-.mp-svg-wrap{position:relative;width:100%;}
-.mp-bg{width:100%;height:auto;display:block;}
 .mp-zone{cursor:pointer;transition:opacity .3s;}
 .mp-zone:hover .mp-zone-fill{opacity:.55;}
 .mp-zone-fill{opacity:.28;transition:opacity .3s;}
@@ -129,11 +126,6 @@ h1.ht em{font-style:italic;color:var(--gl);}
 .mp-tt-row:last-child{border:none;}
 .mp-tt-key{color:var(--dim);letter-spacing:.5px;}
 .mp-tt-val{color:var(--gold);font-family:'Cormorant Garamond',serif;font-size:14px;}
-.mp-legend{display:grid;grid-template-columns:repeat(7,1fr);gap:2px;margin-top:3px;}
-.mp-leg-item{background:var(--nl);padding:14px 12px;border-top:2px solid transparent;text-align:center;cursor:pointer;transition:all .3s;}
-.mp-leg-item:hover,.mp-leg-item.active{border-top-color:var(--gold);}
-.mp-leg-dot{width:10px;height:10px;border-radius:50%;margin:0 auto 6px;}
-.mp-leg-label{font-size:8px;letter-spacing:1.5px;color:var(--dim);text-transform:uppercase;line-height:1.4;}
 .mp-carousel-wrap{display:grid;grid-template-columns:1fr 260px;border:1px solid var(--border);margin-bottom:44px;}
 .mp-slides{position:relative;background:#050d1a;overflow:hidden;min-height:380px;}
 .mp-slide{display:none;width:100%;line-height:0;position:relative;}
@@ -157,7 +149,6 @@ h1.ht em{font-style:italic;color:var(--gl);}
 #mpzoom img{max-width:min(96vw,1400px);max-height:85vh;object-fit:contain;border:1px solid var(--border);}
 #mpzoom-title{font-size:10px;letter-spacing:3px;color:var(--dim);text-transform:uppercase;}
 #mpzoom-close{position:fixed;top:16px;right:24px;font-size:42px;color:var(--gold);background:none;border:none;cursor:pointer;font-family:'Cormorant Garamond',serif;z-index:9501;line-height:1;}
-.mp-hint{text-align:center;padding:14px;font-size:9px;letter-spacing:2px;color:rgba(245,240,232,.3);text-transform:uppercase;border-top:1px solid var(--border);}
 
 
 /* ── MAP CUSTOM ── */
@@ -170,14 +161,6 @@ h1.ht em{font-style:italic;color:var(--gl);}
 @keyframes mpulse{0%,100%{box-shadow:0 0 0 0 rgba(201,168,76,.7),0 0 20px rgba(201,168,76,.5);}50%{box-shadow:0 0 0 12px rgba(201,168,76,0),0 0 20px rgba(201,168,76,.8);}}
 
 /* ── MASTERPLAN SVG ZONE COLORS (match masterplan_1.png palette) ── */
-.zone-marina-fill{fill:#1a5c8a;fill-opacity:.85;}
-.zone-torres-fill{fill:#4a3580;fill-opacity:.85;}
-.zone-casas-fill{fill:#2a7a5a;fill-opacity:.80;}
-.zone-resort-fill{fill:#8a4520;fill-opacity:.85;}
-.zone-aero-fill{fill:#4a5a6a;fill-opacity:.85;}
-.zone-parque-fill{fill:#2a5c2a;fill-opacity:.70;}
-.zone-canal-fill{fill:#1a4a7a;fill-opacity:.75;}
-.zone-praia-fill{fill:#c9a84c;fill-opacity:.25;}
 /* ══════════════════════════ MAP ══════════════════════════ */
 #localizacao{background:var(--nm);padding:100px 0 0;}
 .map-hdr{padding:0 80px 56px;display:flex;gap:80px;align-items:flex-end;flex-wrap:wrap;}
@@ -450,7 +433,7 @@ footer{background:var(--navy);padding:54px 80px 42px;display:flex;justify-conten
   .map-hdr,.mhdr-inner{padding:0 18px 36px;}
   .mcap,.conf{padding:12px 18px;}
   #vision,#marina,#resort-split,#aerodromo,#contato{grid-template-columns:1fr!important;}
-  .emp-grid,.resort-grid,.casas-types,.am-grid,.inv-grid,.pp-steps,.mp-legend{grid-template-columns:1fr!important;}
+  .emp-grid,.resort-grid,.casas-types,.am-grid,.inv-grid,.pp-steps{grid-template-columns:1fr!important;}
   .vg{grid-template-columns:1fr!important;}
   .gs{grid-template-columns:repeat(3,1fr);}
   #autoria{flex-direction:column;padding:44px 18px;gap:22px;}
@@ -645,199 +628,6 @@ footer{background:var(--navy);padding:54px 80px 42px;display:flex;justify-conten
     </div>
   </div>
 
-  <!-- Diagrama Interativo de Zonas -->
-  <div style="text-align:center;margin:44px 0 22px;">
-    <div style="font-size:9px;letter-spacing:3px;color:var(--gd);text-transform:uppercase;">Diagrama de Zonas — Clique para ver dados</div>
-  </div>
-  <div class="mp-container">
-    <!-- SVG Masterplan interativo -->
-    <div class="mp-svg-wrap">
-      <svg viewBox="0 0 1200 680" class="mp-bg" xmlns="http://www.w3.org/2000/svg">
-        <!-- Background - oceano -->
-        <defs>
-          <linearGradient id="ocean" x1="0%" y1="0%" x2="100%" y2="0%">
-            <stop offset="0%" style="stop-color:#071c38;stop-opacity:1"/>
-            <stop offset="100%" style="stop-color:#0a2d52;stop-opacity:1"/>
-          </linearGradient>
-          <linearGradient id="mata" x1="0%" y1="0%" x2="100%" y2="100%">
-            <stop offset="0%" style="stop-color:#0d2b0d;stop-opacity:1"/>
-            <stop offset="100%" style="stop-color:#1a4a1a;stop-opacity:1"/>
-          </linearGradient>
-          <linearGradient id="praia" x1="0%" y1="0%" x2="0%" y2="100%">
-            <stop offset="0%" style="stop-color:#c9a84c;stop-opacity:.4"/>
-            <stop offset="100%" style="stop-color:#8a6f2e;stop-opacity:.15"/>
-          </linearGradient>
-          <filter id="glow">
-            <feGaussianBlur stdDeviation="3" result="blur"/>
-            <feMerge><feMergeNode in="blur"/><feMergeNode in="SourceGraphic"/></feMerge>
-          </filter>
-        </defs>
-        <!-- Oceano -->
-        <rect x="0" y="0" width="1200" height="680" fill="url(#ocean)"/>
-        <!-- Mata Atlântica (fundo) -->
-        <ellipse cx="600" cy="340" rx="520" ry="300" fill="url(#mata)" opacity=".9"/>
-        <!-- Praia (faixa costeira) -->
-        <path d="M120,480 Q300,510 600,495 Q900,480 1080,510 L1080,550 Q900,530 600,545 Q300,558 120,530 Z" fill="url(#praia)"/>
-        <!-- Linha de costa -->
-        <path d="M120,490 Q300,520 600,505 Q900,490 1080,520" stroke="#C9A84C" stroke-width="2" fill="none" opacity=".6"/>
-
-        <!-- ZONA 1: MARINA CIRCULAR -->
-        <g class="mp-zone" id="zone-marina" onclick="mpClick('marina')" data-zone="marina">
-          <circle cx="500" cy="340" r="110" class="mp-zone-fill" fill="#1a4a7a" stroke="#C9A84C" stroke-width="1.5" opacity=".35"/>
-          <circle cx="500" cy="340" r="80" fill="#0d3360" opacity=".5"/>
-          <circle cx="500" cy="340" r="50" fill="#0a2a52" opacity=".7"/>
-          <!-- Canais da marina -->
-          <path d="M500,230 L500,260 M500,420 L500,450 M390,340 L420,340 M580,340 L610,340" stroke="#C9A84C" stroke-width="1.5" opacity=".5"/>
-          <!-- Pontos de atracação -->
-          <circle cx="500" cy="240" r="5" fill="#C9A84C" opacity=".8"/>
-          <circle cx="500" cy="440" r="5" fill="#C9A84C" opacity=".8"/>
-          <circle cx="400" cy="340" r="5" fill="#C9A84C" opacity=".8"/>
-          <circle cx="600" cy="340" r="5" fill="#C9A84C" opacity=".8"/>
-          <g class="mp-zone-label">
-            <text x="500" y="335" class="lnum">01</text>
-            <text x="500" y="352">MARINA</text>
-          </g>
-        </g>
-
-        <!-- ZONA 2: TORRES RESIDENCIAIS (frente praia) -->
-        <g class="mp-zone" id="zone-torres" onclick="mpClick('torres')" data-zone="torres">
-          <rect x="330" y="455" width="340" height="55" rx="4" class="mp-zone-fill" fill="#4a2080" stroke="#C9A84C" stroke-width="1" opacity=".4"/>
-          <!-- Torres -->
-          <rect x="350" y="430" width="22" height="50" rx="2" fill="#5a30a0" opacity=".7"/>
-          <rect x="385" y="440" width="22" height="40" rx="2" fill="#5a30a0" opacity=".7"/>
-          <rect x="420" y="435" width="22" height="45" rx="2" fill="#5a30a0" opacity=".7"/>
-          <rect x="455" y="430" width="22" height="50" rx="2" fill="#5a30a0" opacity=".7"/>
-          <rect x="490" y="438" width="22" height="42" rx="2" fill="#5a30a0" opacity=".7"/>
-          <rect x="525" y="432" width="22" height="48" rx="2" fill="#5a30a0" opacity=".7"/>
-          <rect x="560" y="440" width="22" height="40" rx="2" fill="#5a30a0" opacity=".7"/>
-          <rect x="595" y="434" width="22" height="46" rx="2" fill="#5a30a0" opacity=".7"/>
-          <g class="mp-zone-label">
-            <text x="500" y="475" class="lnum">02</text>
-            <text x="500" y="490">TORRES RES.</text>
-          </g>
-        </g>
-
-        <!-- ZONA 3: CASAS VERANEIO (espiral) -->
-        <g class="mp-zone" id="zone-casas" onclick="mpClick('casas')" data-zone="casas">
-          <path d="M640,240 Q700,200 760,230 Q820,260 830,330 Q840,400 790,440 Q740,480 670,460 Q620,445 630,380 Q640,320 680,290 Q720,260 750,280 Q770,300 760,340" class="mp-zone-fill" fill="#1a5a3a" stroke="#C9A84C" stroke-width="1.2" opacity=".3" fill-rule="evenodd"/>
-          <!-- Casa symbols -->
-          <rect x="680" y="300" width="18" height="14" rx="1" fill="#2a8a5a" opacity=".7"/>
-          <polygon points="680,300 698,300 689,291" fill="#3aaa6a" opacity=".7"/>
-          <rect x="720" y="320" width="16" height="12" rx="1" fill="#2a8a5a" opacity=".7"/>
-          <polygon points="720,320 736,320 728,312" fill="#3aaa6a" opacity=".7"/>
-          <rect x="705" y="350" width="18" height="14" rx="1" fill="#2a8a5a" opacity=".7"/>
-          <polygon points="705,350 723,350 714,341" fill="#3aaa6a" opacity=".7"/>
-          <rect x="745" y="370" width="16" height="12" rx="1" fill="#2a8a5a" opacity=".7"/>
-          <polygon points="745,370 761,370 753,362" fill="#3aaa6a" opacity=".7"/>
-          <g class="mp-zone-label">
-            <text x="730" y="310" class="lnum">03</text>
-            <text x="730" y="327">CASAS</text>
-          </g>
-        </g>
-
-        <!-- ZONA 4: RESORT -->
-        <g class="mp-zone" id="zone-resort" onclick="mpClick('resort')" data-zone="resort">
-          <rect x="310" y="240" width="140" height="100" rx="6" class="mp-zone-fill" fill="#7a3a1a" stroke="#C9A84C" stroke-width="1.2" opacity=".3"/>
-          <!-- Resort symbol -->
-          <rect x="330" y="265" width="100" height="55" rx="3" fill="#a04a20" opacity=".5"/>
-          <rect x="345" y="255" width="30" height="12" rx="2" fill="#a04a20" opacity=".6"/>
-          <rect x="385" y="255" width="30" height="12" rx="2" fill="#a04a20" opacity=".6"/>
-          <!-- Pool symbol -->
-          <ellipse cx="380" cy="285" rx="22" ry="12" fill="#1a6a8a" opacity=".7"/>
-          <g class="mp-zone-label">
-            <text x="380" y="308" class="lnum">04</text>
-            <text x="380" y="323">RESORT</text>
-          </g>
-        </g>
-
-        <!-- ZONA 5: AERÓDROMO -->
-        <g class="mp-zone" id="zone-aero" onclick="mpClick('aero')" data-zone="aero">
-          <rect x="800" y="170" width="280" height="130" rx="4" class="mp-zone-fill" fill="#3a3a1a" stroke="#C9A84C" stroke-width="1.2" opacity=".3"/>
-          <!-- Pista -->
-          <rect x="820" y="225" width="240" height="20" rx="3" fill="#4a4a2a" opacity=".8"/>
-          <!-- Marcações da pista -->
-          <rect x="835" y="230" width="15" height="10" rx="1" fill="#C9A84C" opacity=".4"/>
-          <rect x="860" y="230" width="15" height="10" rx="1" fill="#C9A84C" opacity=".4"/>
-          <rect x="885" y="230" width="15" height="10" rx="1" fill="#C9A84C" opacity=".4"/>
-          <rect x="990" y="230" width="15" height="10" rx="1" fill="#C9A84C" opacity=".4"/>
-          <rect x="1015" y="230" width="15" height="10" rx="1" fill="#C9A84C" opacity=".4"/>
-          <!-- Hangar -->
-          <rect x="820" y="185" width="80" height="35" rx="2" fill="#4a4a2a" opacity=".7"/>
-          <!-- Avião symbol -->
-          <path d="M925,215 L940,210 L945,215 L940,220 L925,215 Z M940,215 L955,218 L955,212 Z" fill="#C9A84C" opacity=".6"/>
-          <g class="mp-zone-label">
-            <text x="940" y="258" class="lnum">05</text>
-            <text x="940" y="275">AERÓDROMO</text>
-          </g>
-        </g>
-
-        <!-- ZONA 6: MATA ATLÂNTICA -->
-        <g class="mp-zone" id="zone-mata" onclick="mpClick('mata')" data-zone="mata" style="cursor:default;">
-          <g class="mp-zone-label">
-            <text x="210" y="200" style="fill:rgba(80,160,80,.6);font-size:9px;letter-spacing:1px;">MATA ATLÂNTICA</text>
-            <text x="210" y="215" style="fill:rgba(80,160,80,.4);font-size:8px;">ÁREA PRESERVADA</text>
-          </g>
-        </g>
-
-        <!-- ZONA 7: PRAIA -->
-        <g class="mp-zone-label">
-          <text x="600" y="543" style="fill:rgba(201,168,76,.5);font-size:9px;letter-spacing:2px;">OCEANO ATLÂNTICO</text>
-          <text x="200" y="530" style="fill:rgba(201,168,76,.35);font-size:8px;letter-spacing:1px;">PRAIA PRIVATIVA 5,3km</text>
-        </g>
-
-        <!-- Orientação -->
-        <g>
-          <text x="1150" y="56" style="fill:rgba(201,168,76,.5);font-size:10px;text-anchor:middle;">N</text>
-          <line x1="1150" y1="62" x2="1150" y2="85" stroke="rgba(201,168,76,.4)" stroke-width="1.5"/>
-          <polygon points="1150,58 1146,70 1154,70" fill="rgba(201,168,76,.5)"/>
-        </g>
-
-        <!-- Legenda escala -->
-        <line x1="80" y1="630" x2="280" y2="630" stroke="rgba(201,168,76,.4)" stroke-width="1.5"/>
-        <line x1="80" y1="624" x2="80" y2="636" stroke="rgba(201,168,76,.4)" stroke-width="1.5"/>
-        <line x1="280" y1="624" x2="280" y2="636" stroke="rgba(201,168,76,.4)" stroke-width="1.5"/>
-        <text x="180" y="650" style="fill:rgba(201,168,76,.4);font-size:9px;text-anchor:middle;letter-spacing:1px;">2km aproximado</text>
-
-        <!-- BA-099 -->
-        <path d="M50,560 Q200,545 400,555 Q600,565 800,555 Q1000,545 1150,555" stroke="#8a6f2e" stroke-width="3" fill="none" stroke-dasharray="8,4" opacity=".5"/>
-        <text x="900" y="575" style="fill:rgba(139,111,46,.6);font-size:9px;letter-spacing:1px;">BA-099 — LINHA VERDE</text>
-      </svg>
-      <!-- Tooltip -->
-      <div class="mp-tooltip" id="mp-tooltip"></div>
-    </div>
-    <!-- Legend -->
-    <div class="mp-legend">
-      <div class="mp-leg-item active" onclick="mpClick('marina')">
-        <div class="mp-leg-dot" style="background:#1a6aaa;"></div>
-        <div class="mp-leg-label">Marina Circular</div>
-      </div>
-      <div class="mp-leg-item" onclick="mpClick('torres')">
-        <div class="mp-leg-dot" style="background:#5a30a0;"></div>
-        <div class="mp-leg-label">Torres Residenciais</div>
-      </div>
-      <div class="mp-leg-item" onclick="mpClick('casas')">
-        <div class="mp-leg-dot" style="background:#2a8a5a;"></div>
-        <div class="mp-leg-label">Casas de Veraneio</div>
-      </div>
-      <div class="mp-leg-item" onclick="mpClick('resort')">
-        <div class="mp-leg-dot" style="background:#a04a20;"></div>
-        <div class="mp-leg-label">Resort 5★</div>
-      </div>
-      <div class="mp-leg-item" onclick="mpClick('aero')">
-        <div class="mp-leg-dot" style="background:#5a5a2a;"></div>
-        <div class="mp-leg-label">Aeródromo</div>
-      </div>
-      <div class="mp-leg-item">
-        <div class="mp-leg-dot" style="background:#1a5a1a;"></div>
-        <div class="mp-leg-label">Mata Atlântica</div>
-      </div>
-      <div class="mp-leg-item">
-        <div class="mp-leg-dot" style="background:#C9A84C;"></div>
-        <div class="mp-leg-label">Praia Privativa</div>
-      </div>
-    </div>
-    <div class="mp-hint">🖱 Clique nas zonas para ver detalhes do programa — Masterplan conceitual para fins de apresentação</div>
-  </div>
 </section>
 
 <!-- ══ CONCORRÊNCIA ══ -->
@@ -1603,64 +1393,6 @@ window.addEventListener('scroll', function(){
   openBtn.addTo(map);
 })();
 
-/* ── MASTERPLAN TOOLTIP DATA ── */
-var mpData = {
-  marina: {
-    zone:'Produto 01 — 350 ha',title:'Marina + Resort',
-    specs:[['Vagas náuticas','200'],['Comprimento máx.','60m'],['Hotel UHs','600'],['Investimento','R$ 2,1B']]
-  },
-  torres: {
-    zone:'Produto 03A — 450 ha',title:'Torres Residenciais',
-    specs:[['Área','180–350m²'],['Preço médio','R$ 4,5M/un'],['Quantidade','100 apts'],['VGV','R$ 450M']]
-  },
-  casas: {
-    zone:'Produto 03B — 450 ha',title:'Lotes e Chalés',
-    specs:[['Lotes total','850 unidades'],['Lote premium','R$ 5,0M/un'],['Chalés','150 un × R$2,5M'],['VGV total','R$ 2,67B']]
-  },
-  resort: {
-    zone:'Produto 02 — 350 ha',title:'Resort Five-Star',
-    specs:[['Classificação','5 Estrelas'],['UHs','600 unidades'],['Receita VPL 10a','R$ 1,02B'],['Flag','Internacional']]
-  },
-  aero: {
-    zone:'Produto 04 — 120 ha',title:'Aeródromo Executivo',
-    specs:[['Pista','1.800m × 45m'],['Categoria','4C / IFR / G550'],['Hangares venda','15 × R$ 15M'],['Invest.','R$ 480M']]
-  }
-};
-
-function mpClick(zone) {
-  var data = mpData[zone];
-  if (!data) return;
-  var tt = document.getElementById('mp-tooltip');
-  var html = '<div class="mp-tt-zone">'+ data.zone +'</div>';
-  html += '<div class="mp-tt-title">'+ data.title +'</div>';
-  html += '<div class="mp-tt-specs">';
-  data.specs.forEach(function(s){
-    html += '<div class="mp-tt-row"><span class="mp-tt-key">'+ s[0] +'</span><span class="mp-tt-val">'+ s[1] +'</span></div>';
-  });
-  html += '</div>';
-  tt.innerHTML = html;
-  tt.classList.add('active');
-  // Position tooltip
-  var svg = document.querySelector('.mp-svg-wrap');
-  var rect = svg.getBoundingClientRect();
-  var zonePositions = {marina:[42,40],torres:[40,72],casas:[65,38],resort:[25,38],aero:[82,26]};
-  var pos = zonePositions[zone] || [50,50];
-  var left = pos[0]/100 * rect.width;
-  var top  = pos[1]/100 * rect.height;
-  if (left + 280 > rect.width) left -= 280;
-  tt.style.left = left + 'px';
-  tt.style.top  = top  + 'px';
-  // Update legend
-  document.querySelectorAll('.mp-leg-item').forEach(function(el){ el.classList.remove('active'); });
-  var zones = ['marina','torres','casas','resort','aero'];
-  var idx = zones.indexOf(zone);
-  if(idx >= 0) document.querySelectorAll('.mp-leg-item')[idx].classList.add('active');
-}
-document.querySelector('.mp-svg-wrap').addEventListener('click', function(e){
-  if(e.target === this || e.target.tagName === 'svg' || e.target.tagName === 'rect' && !e.target.closest('.mp-zone')) {
-    document.getElementById('mp-tooltip').classList.remove('active');
-  }
-});
 
 /* ── INVESTMENT TABS ── */
 function invTab(id) {
